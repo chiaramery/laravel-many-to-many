@@ -32,15 +32,36 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @forelse ($technologies as $technology)
-                    <tr>
-                        <th scope="row">{{ $technology->name}}</th>
-                        <td></td>
-                        {{-- <td>{{ count($technology->projects) }}</td> --}}
-                        <td>Azioni</td>
-                    </tr>
+                        @forelse ($technologies as $technology)
+                        <tr>
+                            <th scope="row">
+                                <form id="edit-technology-{{ $technology->id }}"
+                                    action="{{ route('admin.technologies.update', $technology->slug) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="text" name="name" id="name" class="form-control border-0"
+                                        value="{{ $technology->name }}">
+                                </form>
+                            </th>
+                            {{-- <td>{{ count($technology->projects) }}</td> --}}
+                            <td>vuoto</td>
+                            <td>
+                                <button form="edit-technology-{{ $technology->id }}" class="btn btn-warning" href=""
+                                    type="submit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+
+                                <form action="{{ route('admin.technologies.destroy', $technology->slug) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger" type="submit">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     @empty
-                    <p>Nessuna categoria presente</p>
+                        <p>Nessuna categoria presente</p>
                     @endforelse
                 
                     </tbody>
