@@ -95,6 +95,13 @@ class ProjectController extends Controller
         $val_data = $request->validated();
         $val_data['slug'] = Project::generateSlug($val_data['title']);
         $project->update($val_data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies);
+        } else {
+            $project->technologies()->detach();
+        }
+
         return redirect()->route('admin.projects.index')->with('message', "$project->title è stato aggiornato con successo");
     }
 
@@ -106,6 +113,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $project->technologies()->detach();
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "$project->title è stato cancellato");
     }
