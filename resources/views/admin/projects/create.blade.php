@@ -30,7 +30,7 @@
                         @foreach ($technologies as $technology)
                             <div class="form-check">
                                 <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}" class="form-check-input"
-                                    value="{{ $technology->id }}">
+                                    value="{{ $technology->id }}" @checked(in_array($technology->id, old('technologies', [])))>
                                 <label for="technology-{{ $technology->id }}" class="form-check-label">{{ $technology->name }}</label>
                             </div>
                         @endforeach
@@ -40,6 +40,7 @@
                         <label for="cover_image">Immagine</label>
                         <input type="file" name="cover_image" id="cover_image" class="form-control">
                     </div> --}}
+
                     <div class="mt-3">
                         <label for="description">Descrizione</label>
                         <textarea name="description" id="description" rows="10" class="form-control">{{ old('description') }}</textarea>

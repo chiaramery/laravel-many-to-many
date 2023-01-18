@@ -53,7 +53,7 @@ class ProjectController extends Controller
         $project = Project::create($val_data);
 
         if ($request->has('technologies')) {
-            $project->technologies()->attach($request->technologies);
+            $project->technologies()->attach($request->technology);
         }
 
         return redirect()->route('admin.projects.index')->with('message', "Il progetto $project->title è stato creato con successo");
@@ -78,6 +78,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        // dd($project->technologies());
         $types = Type::all();
         $technologies = Technology::all();
         return view('admin.projects.edit', compact('project', 'types', 'technologies'));
@@ -97,7 +98,7 @@ class ProjectController extends Controller
         $project->update($val_data);
 
         if ($request->has('technologies')) {
-            $project->technologies()->sync($request->technologies);
+            $project->technologies()->sync($val_data->technology);
         } else {
             $project->technologies()->detach();
         }
